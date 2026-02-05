@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,57 +7,426 @@
     <meta name="description" content="The better way to browse." />
     <link rel="icon" type="image/x-icon" href="/public/assets/imgs/logo.png" />
     <title>FATE | Apps</title>
-    <!-- Critical CSS -->
-    <link rel="stylesheet" href="assets/css/global.css" />
-    <link rel="stylesheet" href="assets/css/theme/default.css" />
-    <!-- Non-critical CSS -->
-    <link rel="stylesheet" href="assets/css/rays.css" />
-    <link rel="stylesheet" href="assets/css/glass.css" />
-    <link rel="stylesheet" href="assets/css/nav.css" />
-    <link rel="stylesheet" href="assets/css/pages/apps.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+      
+      :root {
+        --primary-color: #0f3460;
+        --secondary-color: #1e5f8e;
+        --accent-color: #3d84b8;
+        --bg-2-color: #16213e;
+        --bg-color: #0a0a23;
+        --text-color: #e0e0e0;
+        --text-secondary-color: #a0c8e6;
+        --text-placeholder-color: #5a7a9c;
+        --border-color: #2c3e50;
+        --font-family: "Poppins", sans-serif;
+        --border-radius: 12px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-family);
+        background-image: 
+          radial-gradient(circle at 10% 20%, rgba(15, 52, 96, 0.1) 0%, transparent 20%),
+          radial-gradient(circle at 90% 80%, rgba(61, 132, 184, 0.1) 0%, transparent 20%);
+        min-height: 100vh;
+        padding-top: 80px;
+      }
+
+      /* Navigation bar styles - FATE V3 */
+      nav {
+        background: rgba(22, 33, 62, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(61, 132, 184, 0.3);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      nav img {
+        height: 2.5rem;
+        width: 2.5rem;
+        filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
+      }
+
+      nav .flex {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+      }
+
+      nav a {
+        color: #93c5fd;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      nav a:hover {
+        color: #ffffff;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+      }
+
+      nav i {
+        color: var(--text-color);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      nav i:hover {
+        color: #ffffff;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+      }
+
+      /* Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Rays effect */
+      .raysContain {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .rays {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(
+          from 0deg,
+          transparent 0deg,
+          rgba(15, 52, 96, 0.03) 60deg,
+          transparent 120deg,
+          rgba(61, 132, 184, 0.03) 180deg,
+          transparent 240deg,
+          rgba(15, 52, 96, 0.03) 300deg,
+          transparent 360deg
+        );
+        animation: rotate 60s linear infinite;
+      }
+
+      @keyframes rotate {
+        from { transform: translate(-50%, -50%) rotate(0deg); }
+        to { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+
+      /* Glass container */
+      .glass {
+        background: rgba(22, 33, 62, 0.6);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(61, 132, 184, 0.3);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        box-shadow: 0 20px 60px rgba(15, 52, 96, 0.3);
+      }
+
+      /* Header */
+      header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      header h1 span {
+        text-shadow: 
+          0 0 10px rgba(255, 255, 255, 0.7),
+          0 0 20px rgba(255, 255, 255, 0.5),
+          0 0 30px rgba(255, 255, 255, 0.3);
+      }
+
+      header p {
+        color: var(--text-secondary-color);
+        font-size: 0.875rem;
+      }
+
+      /* Apps grid */
+      #appsContain {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .app-card {
+        background: var(--bg-2-color);
+        border: 1px solid rgba(61, 132, 184, 0.2);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: var(--text-color);
+      }
+
+      .app-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-color);
+        box-shadow: 0 10px 30px rgba(15, 52, 96, 0.3);
+      }
+
+      .app-icon {
+        aspect-ratio: 1;
+        background: var(--bg-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        position: relative;
+      }
+
+      .app-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .app-badge {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.375rem;
+        font-size: 0.625rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .badge-hot {
+        background: var(--accent-color);
+        color: white;
+      }
+
+      .badge-new {
+        background: var(--secondary-color);
+        color: white;
+      }
+
+      .app-name {
+        padding: 1rem;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.875rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Popup styles - matching FATE V3 */
+      .app-popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(10, 10, 35, 0.95);
+        z-index: 9999;
+        backdrop-filter: blur(5px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .app-popup-overlay.active {
+        display: flex;
+      }
+
+      .app-popup-container {
+        width: 95%;
+        height: 95%;
+        max-width: 1400px;
+        max-height: 900px;
+        background: var(--bg-2-color);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 20px 60px rgba(15, 52, 96, 0.5);
+        border: 1px solid rgba(61, 132, 184, 0.3);
+      }
+
+      .app-popup-header {
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border-color);
+        background: linear-gradient(135deg, var(--bg-2-color) 0%, #1a2a4a 100%);
+      }
+
+      .app-popup-title {
+        color: var(--text-color);
+        font-size: 18px;
+        font-weight: 600;
+        flex: 1;
+        text-align: center;
+        text-shadow: 0 0 8px rgba(224, 224, 224, 0.5);
+      }
+
+      .app-popup-close,
+      .app-popup-fullscreen {
+        background: var(--border-color);
+        border: none;
+        color: var(--text-color);
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        font-size: 18px;
+      }
+
+      .app-popup-close:hover,
+      .app-popup-fullscreen:hover {
+        background: var(--secondary-color);
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(30, 95, 142, 0.5);
+        color: #ffffff;
+      }
+
+      .app-popup-content {
+        flex: 1;
+        position: relative;
+        background: var(--bg-color);
+      }
+
+      .app-popup-content iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 3rem;
+        padding: 1.5rem;
+        text-align: center;
+        color: var(--text-placeholder-color);
+        font-size: 0.875rem;
+      }
+
+      .visitor-counter {
+        margin-bottom: 15px;
+        padding: 15px;
+        background: rgba(15, 52, 96, 0.2);
+        border-radius: 8px;
+        display: inline-block;
+      }
+
+      .visitor-counter span {
+        color: #e0e0e0;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    </style>
   </head>
 
   <body>
-    <div class="container">
-      <div class="raysContain">
-        <div class="rays"></div>
+    <div class="raysContain">
+      <div class="rays"></div>
+    </div>
+
+    <nav>
+      <img src="assets/imgs/logo.png" alt="logo" />
+      <div class="flex">
+        <a href="https://nicelycat2.github.io/Games"><i class="fas fa-home"></i> Home</a>
+        <a href="https://nicelycat2.github.io/Games/games.html"><i class="fas fa-gamepad"></i> Games</a>
+        <a href="/a"><i class="fas fa-th-large"></i> Apps</a>
       </div>
-      <nav>
-        <img src="assets/imgs/logo.png" alt="logo" />
-        <div class="flex">
-          <a href="/">Home</a>
-          <a href="/g">Games</a>
-          <a href="/a">Apps</a>
-          <a href="/ai">AI</a>
-        </div>
-        <i data-lucide="settings"></i>
-      </nav>
+      <i data-lucide="settings" class="fas fa-cog"></i>
+    </nav>
+
+    <div class="container">
+      <header>
+        <h1><span>FATE Apps</span></h1>
+        <p>Your favorite applications, unblocked</p>
+      </header>
+
       <div class="glass">
         <div id="appsContain"></div>
       </div>
     </div>
-    <script src="assets/js/index.js"></script>
-    <script src="assets/js/apps.js"></script>
-    <script src="assets/js/formatDesc.js"></script>
+
+    <!-- App Popup -->
+    <div id="appPopup" class="app-popup-overlay">
+      <div class="app-popup-container">
+        <div class="app-popup-header">
+          <div style="width: 36px"></div>
+          <div class="app-popup-title" id="popupTitle">Loading...</div>
+          <div style="display: flex; flex-direction: row; gap: 4px">
+            <button class="app-popup-fullscreen" onclick="fullscreenPopup()">
+              <i class="fas fa-expand"></i>
+            </button>
+            <button class="app-popup-close" onclick="closePopup()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="app-popup-content">
+          <iframe id="appFrame"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="visitor-counter">
+        <span>👥 Total Visitors: </span>
+        <a href='https://www.free-counters.org/' style="display: none;">https://www.free-Counters.org</a>
+        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=aac3697a17827feb76b9c30b1d439798f92b3329'></script>
+        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1486140/t/3"></script>
+      </div>
+      <p>FATE V3 - Made with ❤️</p>
+    </footer>
+
     <!-- UV Files -->
     <script src="/search/bundle.js"></script>
     <script src="/search/config.js"></script>
-    <!-- DO NOT REMOVE -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <script>
-      lucide.createIcons();
-    </script>
-    <!-- DO NOT REMOVE -->
-    <script>
-      const form = document.getElementById('uv-form');
-      const address = document.getElementById('searchbar');
-      const searchEngine = document.getElementById('uv-search-engine');
-      const error = document.getElementById('uv-error');
-      const errorCode = document.getElementById('uv-error-code');
-      const input = document.querySelector('input');
-
-      // crypts class definition
-      class crypts {
+      // Crypts encoding
+      class Crypts {
         static encode(str) {
           return encodeURIComponent(
             str
@@ -81,47 +450,91 @@
         }
       }
 
-      function search(input) {
-        input = input.trim();
-        const searchTemplate = localStorage.getItem('engine') || 'https://google.com/search?q=%s';
+      // Sample apps data - replace with your actual apps.json loading logic
+      const appsData = [
+        { name: "YouTube", icon: "fab fa-youtube", color: "#ff0000", url: "https://youtube.com", hot: true },
+        { name: "Discord", icon: "fab fa-discord", color: "#5865f2", url: "https://discord.com" },
+        { name: "Spotify", icon: "fab fa-spotify", color: "#1db954", url: "https://spotify.com", new: true },
+        { name: "Reddit", icon: "fab fa-reddit", color: "#ff4500", url: "https://reddit.com" },
+        { name: "Twitter", icon: "fab fa-twitter", color: "#1da1f2", url: "https://twitter.com" },
+        { name: "TikTok", icon: "fab fa-tiktok", color: "#ffffff", url: "https://tiktok.com", hot: true },
+        { name: "Twitch", icon: "fab fa-twitch", color: "#9146ff", url: "https://twitch.tv" },
+        { name: "GitHub", icon: "fab fa-github", color: "#ffffff", url: "https://github.com" },
+      ];
 
-        try {
-          return new URL(input).toString();
-        } catch (err) {
-          try {
-            const url = new URL(`http://${input}`);
-            if (url.hostname.includes('.')) {
-              return url.toString();
-            }
-            throw new Error('Invalid hostname');
-          } catch (err) {
-            return searchTemplate.replace('%s', encodeURIComponent(input));
-          }
+      // Render apps
+      function renderApps() {
+        const container = document.getElementById('appsContain');
+        container.innerHTML = appsData.map(app => `
+          <div class="app-card" onclick="openApp('${app.url}', '${app.name}')">
+            <div class="app-icon" style="color: ${app.color}">
+              ${app.hot ? '<span class="app-badge badge-hot"><i class="fas fa-fire"></i> HOT</span>' : ''}
+              ${app.new ? '<span class="app-badge badge-new"><i class="fas fa-sparkles"></i> NEW</span>' : ''}
+              <i class="${app.icon}"></i>
+            </div>
+            <div class="app-name">${app.name}</div>
+          </div>
+        `).join('');
+      }
+
+      // Open app in popup
+      function openApp(url, name) {
+        const popup = document.getElementById('appPopup');
+        const frame = document.getElementById('appFrame');
+        const title = document.getElementById('popupTitle');
+        
+        title.textContent = name;
+        popup.classList.add('active');
+        
+        // Use UV proxy if available
+        if (typeof __uv$config !== 'undefined') {
+          const encodedUrl = __uv$config.prefix + Crypts.encode(url);
+          frame.src = encodedUrl;
+        } else {
+          frame.src = url;
         }
       }
-      if ('serviceWorker' in navigator) {
-        var proxySetting = 'uv';
-        let swConfig = {
-          uv: { file: '/search/sw.js', config: __uv$config },
-        };
 
-        let { file: swFile, config: swConfigSettings } = swConfig[proxySetting];
-
-        navigator.serviceWorker
-          .register(swFile, { scope: swConfigSettings.prefix })
-          .then((registration) => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            form.addEventListener('submit', async (event) => {
-              event.preventDefault();
-              let encodedUrl = swConfigSettings.prefix + crypts.encode(search(address.value));
-              sessionStorage.setItem('encodedUrl', encodedUrl);
-              location.href = '/search';
-            });
-          })
-          .catch((error) => {
-            console.error('ServiceWorker registration failed:', error);
-          });
+      // Close popup
+      function closePopup() {
+        const popup = document.getElementById('appPopup');
+        const frame = document.getElementById('appFrame');
+        
+        popup.classList.remove('active');
+        frame.src = 'about:blank';
       }
+
+      // Fullscreen
+      function fullscreenPopup() {
+        const frame = document.getElementById('appFrame');
+        if (frame.requestFullscreen) {
+          frame.requestFullscreen();
+        } else if (frame.mozRequestFullScreen) {
+          frame.mozRequestFullScreen();
+        } else if (frame.webkitRequestFullscreen) {
+          frame.webkitRequestFullscreen();
+        } else if (frame.msRequestFullscreen) {
+          frame.msRequestFullscreen();
+        }
+      }
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', () => {
+        renderApps();
+        
+        // Register service worker
+        if ('serviceWorker' in navigator && typeof __uv$config !== 'undefined') {
+          navigator.serviceWorker.register('/search/sw.js', { scope: __uv$config.prefix })
+            .then(reg => console.log('SW registered:', reg.scope))
+            .catch(err => console.error('SW registration failed:', err));
+        }
+
+        console.log(
+          "%cFATE%c V3 Apps - Ready",
+          "font-size: 16px; background-color: #0f3460; border-radius: 5px 0 0 5px; padding: 4px; font-weight: bold;",
+          "font-size: 16px; background-color: #0a0a23; font-weight: bold; padding: 4px; border-radius: 0 5px 5px 0;"
+        );
+      });
     </script>
   </body>
 </html>
